@@ -1,0 +1,476 @@
+:root {
+    --erp-sidebar-width: 256px;
+    --erp-topbar-height: 64px;
+    --erp-primary: #2563eb;
+    --erp-primary-soft: #dbeafe;
+    --erp-danger: #dc2626;
+    --erp-success: #16a34a;
+    --erp-warning: #f59e0b;
+    --erp-bg: #f3f6fb;
+    --erp-surface: #ffffff;
+    --erp-border: #e2e8f0;
+    --erp-text: #0f172a;
+    --erp-muted: #64748b;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    background-color: var(--erp-bg);
+    color: var(--erp-text);
+}
+
+.erp-shell {
+    min-height: 100vh;
+    display: flex;
+}
+
+.erp-sidebar {
+    width: var(--erp-sidebar-width);
+    background: #0b1b34;
+    color: #dbe7ff;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    padding: 18px 14px;
+    gap: 14px;
+}
+
+.erp-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px 10px;
+}
+
+.erp-brand-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff;
+}
+
+.erp-brand-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.erp-nav-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+    padding: 8px 10px 0;
+}
+
+.erp-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #dbe7ff;
+    padding: 10px 11px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    transition: background 0.15s ease;
+}
+
+.erp-nav-link i {
+    font-size: 1rem;
+}
+
+.erp-nav-link:hover {
+    background: rgba(148, 163, 184, 0.17);
+    color: #fff;
+}
+
+.erp-nav-link.active {
+    background: rgba(37, 99, 235, 0.3);
+    color: #fff;
+}
+
+.erp-sidebar-footer {
+    margin-top: auto;
+}
+
+.erp-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.erp-topbar {
+    height: var(--erp-topbar-height);
+    background: var(--erp-surface);
+    border-bottom: 1px solid var(--erp-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.erp-topbar-title {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.erp-main {
+    padding: 22px;
+}
+
+.erp-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.erp-page-subtitle {
+    color: var(--erp-muted);
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+}
+
+.erp-card {
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-border);
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.erp-card-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--erp-border);
+}
+
+.erp-card-body {
+    padding: 16px;
+}
+
+.erp-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.erp-kpi {
+    background: var(--erp-surface);
+    border: 1px solid var(--erp-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.erp-kpi .kpi-title {
+    color: var(--erp-muted);
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+}
+
+.erp-kpi .kpi-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.erp-table-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.erp-action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--erp-border);
+    background: #fff;
+    color: #1e293b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.erp-action-btn:hover {
+    border-color: #bfdbfe;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.erp-action-btn.is-danger:hover {
+    border-color: #fecaca;
+    background: #fef2f2;
+    color: var(--erp-danger);
+}
+
+.erp-readonly-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.73rem;
+    font-weight: 600;
+    color: #334155;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 5px 9px;
+}
+
+.erp-filter-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.8fr 0.8fr auto;
+    gap: 10px;
+}
+
+.erp-badge-status {
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.erp-badge-status.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.erp-badge-status.inactive {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.erp-muted {
+    color: var(--erp-muted);
+}
+
+.erp-mobile-toggle {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .erp-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .erp-filter-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 860px) {
+    .erp-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1040;
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
+    }
+
+    .erp-shell.sidebar-open .erp-sidebar {
+        transform: translateX(0);
+    }
+
+    .erp-mobile-toggle {
+        display: inline-flex;
+    }
+
+    .erp-main {
+        padding: 16px;
+    }
+
+    .erp-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .erp-filter-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Toasts: visual clean, cores suaves, leitura calma */
+.erp-toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: min(400px, calc(100vw - 32px));
+    pointer-events: none;
+}
+
+.erp-toast-container .erp-toast {
+    pointer-events: auto;
+}
+
+/* Altura mínima alinhada ao toast de reset de senha (mensagem longa, 2–3 linhas) */
+.erp-toast {
+    --erp-toast-accent: #94a3b8;
+    --erp-toast-icon-bg: #f1f5f9;
+    --erp-toast-icon-fg: #64748b;
+    --erp-toast-min-height: 96px;
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8eef4;
+    border-left: 3px solid var(--erp-toast-accent);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+    min-height: var(--erp-toast-min-height);
+    box-sizing: border-box;
+    padding: 18px 18px 18px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #334155;
+    animation: erp-toast-enter 0.22s ease;
+}
+
+.erp-toast::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--erp-toast-accent);
+    opacity: 0.35;
+    transform-origin: left center;
+    animation: erp-toast-progress 6s linear forwards;
+}
+
+.erp-toast.is-closing {
+    animation: erp-toast-leave 0.2s ease forwards;
+}
+
+.erp-toast-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--erp-toast-icon-bg);
+    color: var(--erp-toast-icon-fg);
+    flex-shrink: 0;
+}
+
+.erp-toast-icon i {
+    font-size: 1.05rem;
+}
+
+.erp-toast.success {
+    --erp-toast-accent: #6ee7b7;
+    --erp-toast-icon-bg: #ecfdf5;
+    --erp-toast-icon-fg: #047857;
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 55%);
+    border-color: #d1fae5;
+}
+
+.erp-toast.warning {
+    --erp-toast-accent: #fcd34d;
+    --erp-toast-icon-bg: #fffbeb;
+    --erp-toast-icon-fg: #b45309;
+    background: linear-gradient(180deg, #fffbeb 0%, #ffffff 55%);
+    border-color: #fef3c7;
+}
+
+.erp-toast.error {
+    --erp-toast-accent: #fca5a5;
+    --erp-toast-icon-bg: #fff1f2;
+    --erp-toast-icon-fg: #b91c1c;
+    background: linear-gradient(180deg, #fff1f2 0%, #ffffff 55%);
+    border-color: #fecaca;
+}
+
+.erp-toast.info {
+    --erp-toast-accent: #a5b4fc;
+    --erp-toast-icon-bg: #eef2ff;
+    --erp-toast-icon-fg: #4f46e5;
+    background: linear-gradient(180deg, #f5f3ff 0%, #ffffff 55%);
+    border-color: #e0e7ff;
+}
+
+.erp-toast-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.erp-toast-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #1e293b;
+    letter-spacing: 0.01em;
+}
+
+.erp-toast-message {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: #64748b;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.erp-toast-close {
+    border: 0;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    line-height: 1;
+    padding: 0;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.erp-toast-close:hover {
+    color: #475569;
+    background: #f1f5f9;
+}
+
+.erp-toast-source {
+    display: none;
+}
+
+@keyframes erp-toast-enter {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes erp-toast-leave {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes erp-toast-progress {
+    from {
+        transform: scaleX(1);
+    }
+    to {
+        transform: scaleX(0);
+    }
+}

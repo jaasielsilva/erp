@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auditoria de usuário | ERP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="erp-toast-container"></div>
+<div class="erp-toast-source" th:if="${successMessage}" data-toast-type="success" th:attr="data-toast-message=${successMessage}"></div>
+<div class="erp-toast-source" th:if="${warningMessage}" data-toast-type="warning" th:attr="data-toast-message=${warningMessage}"></div>
+<div class="erp-toast-source" th:if="${errorMessage}" data-toast-type="error" th:attr="data-toast-message=${errorMessage}"></div>
+<div class="erp-shell">
+    <aside class="erp-sidebar">
+        <div class="erp-brand">
+            <span class="erp-brand-badge">ERP</span>
+            <div class="erp-brand-title">ERP Corporativo</div>
+        </div>
+        <div class="erp-nav-title">Principal</div>
+        <a class="erp-nav-link" th:href="@{/dashboard}">
+            <i class="bi bi-grid"></i>
+            Dashboard
+        </a>
+        <a class="erp-nav-link" th:href="@{/empresas}" th:if="${canManageCompanies}">
+            <i class="bi bi-buildings"></i>
+            Empresas
+        </a>
+        <a class="erp-nav-link active" th:href="@{/usuarios}">
+            <i class="bi bi-people"></i>
+            Usuários
+        </a>
+        <a class="erp-nav-link" th:href="@{/configuracoes/email}">
+            <i class="bi bi-gear"></i>
+            Configurações
+        </a>
+    </aside>
+
+    <section class="erp-content">
+        <header class="erp-topbar">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-outline-secondary btn-sm erp-mobile-toggle" data-erp-sidebar-toggle>
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="erp-topbar-title">Auditoria de usuário</span>
+            </div>
+            <span class="erp-muted" th:text="${email}">email</span>
+        </header>
+
+        <main class="erp-main">
+            <div class="erp-page-header">
+                <div>
+                    <h1 class="h4 mb-0" th:text="'Auditoria - ' + ${usuario.nome()}">Auditoria</h1>
+                    <p class="erp-page-subtitle" th:text="${usuario.email()}">email</p>
+                </div>
+                <a class="btn btn-outline-secondary" th:href="@{/usuarios}">
+                    <i class="bi bi-arrow-left me-1"></i>Voltar
+                </a>
+            </div>
+
+            <section class="erp-card">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Data</th>
+                            <th>Ação</th>
+                            <th>Executado por</th>
+                            <th>Detalhes</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${auditsPage.isEmpty()}">
+                            <td colspan="4" class="text-center py-4 erp-muted">Sem eventos de auditoria.</td>
+                        </tr>
+                        <tr th:each="audit : ${auditsPage.content}">
+                            <td th:text="${#temporals.format(audit.createdAt(), 'dd/MM/yyyy HH:mm')}">00/00/0000</td>
+                            <td th:text="${audit.action().name()}">UPDATE</td>
+                            <td th:text="${audit.performedBy()}">admin</td>
+                            <td th:text="${audit.details()}">Detalhes</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="erp-card-body border-top d-flex justify-content-between align-items-center">
+                    <small class="erp-muted"
+                           th:text="|Página ${auditsPage.number + 1} de ${auditsPage.totalPages == 0 ? 1 : auditsPage.totalPages}|">Página 1</small>
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item" th:classappend="${auditsPage.first} ? 'disabled'">
+                                <a class="page-link"
+                                   th:href="@{|/usuarios/${usuario.id()}/auditoria?page=${auditsPage.number - 1}&size=${pageSize}|}">Anterior</a>
+                            </li>
+                            <li class="page-item" th:classappend="${auditsPage.last} ? 'disabled'">
+                                <a class="page-link"
+                                   th:href="@{|/usuarios/${usuario.id()}/auditoria?page=${auditsPage.number + 1}&size=${pageSize}|}">Próxima</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+        </main>
+    </section>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

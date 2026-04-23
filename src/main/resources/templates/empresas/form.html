@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Editar Empresa | ERP Corporativo' : 'Nova Empresa | ERP Corporativo'">Empresa | ERP Corporativo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="erp-shell">
+    <aside class="erp-sidebar">
+        <div class="erp-brand">
+            <span class="erp-brand-badge">ERP</span>
+            <div class="erp-brand-title">ERP Corporativo</div>
+        </div>
+
+        <div class="erp-nav-title">Principal</div>
+        <a class="erp-nav-link" th:href="@{/dashboard}">
+            <i class="bi bi-grid"></i>
+            Dashboard
+        </a>
+        <a class="erp-nav-link active" th:href="@{/empresas}" th:if="${canManageCompanies}">
+            <i class="bi bi-buildings"></i>
+            Empresas
+        </a>
+        <a class="erp-nav-link" th:href="@{/usuarios}" th:if="${canManageUsers}">
+            <i class="bi bi-people"></i>
+            Usuários
+        </a>
+        <a class="erp-nav-link" th:href="@{/configuracoes/email}" th:if="${canManageUsers}">
+            <i class="bi bi-gear"></i>
+            Configurações
+        </a>
+
+        <div class="erp-sidebar-footer">
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button type="submit" class="btn btn-outline-light btn-sm w-100">
+                    <i class="bi bi-box-arrow-right me-1"></i>Sair
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <section class="erp-content">
+        <header class="erp-topbar">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-outline-secondary btn-sm erp-mobile-toggle" data-erp-sidebar-toggle>
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="erp-topbar-title"
+                      th:text="${isEdit} ? 'Editar empresa' : 'Nova empresa'">Empresa</span>
+            </div>
+            <span class="erp-muted" th:text="${email}">email</span>
+        </header>
+
+        <main class="erp-main">
+            <div class="erp-page-header">
+                <div>
+                    <h1 class="h4 mb-0" th:text="${isEdit} ? 'Editar Empresa' : 'Cadastro de Empresa'">Cadastro de Empresa</h1>
+                    <p class="erp-page-subtitle"
+                       th:text="${isEdit} ? 'Atualize os dados do tenant.' : 'Crie um novo tenant e provisione o administrador inicial.'">
+                        Crie um novo tenant.
+                    </p>
+                </div>
+                <a class="btn btn-outline-secondary" th:href="@{/empresas}">
+                    <i class="bi bi-arrow-left me-1"></i>Voltar
+                </a>
+            </div>
+
+            <section class="erp-card">
+                <div class="erp-card-body">
+                    <form th:action="${isEdit} ? @{|/empresas/${empresaId}/editar|} : @{/empresas}"
+                          th:object="${empresaForm}" method="post" class="needs-validation" novalidate>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}" th:text="${#fields.globalErrors()[0].defaultMessage}">
+                            Nao foi possivel salvar.
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="nomeFantasia">Nome fantasia</label>
+                            <input class="form-control" id="nomeFantasia" th:field="*{nomeFantasia}" placeholder="Empresa Cliente Ltda">
+                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('nomeFantasia')}" th:errors="*{nomeFantasia}"></div>
+                        </div>
+
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="ativo" th:field="*{ativo}">
+                            <label class="form-check-label" for="ativo">Empresa ativa</label>
+                        </div>
+
+                        <div th:if="${!isEdit}">
+                            <hr>
+                            <h2 class="h6 mb-3">Administrador inicial</h2>
+                            <div class="mb-3">
+                                <label class="form-label" for="adminNome">Nome</label>
+                                <input class="form-control" id="adminNome" th:field="*{adminNome}" placeholder="Administrador da empresa">
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('adminNome')}" th:errors="*{adminNome}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="adminEmail">E-mail</label>
+                                <input class="form-control" type="email" id="adminEmail" th:field="*{adminEmail}" placeholder="admin@empresa.com">
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('adminEmail')}" th:errors="*{adminEmail}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="adminSenha">Senha inicial</label>
+                                <input class="form-control" type="password" id="adminSenha" th:field="*{adminSenha}" placeholder="Mínimo 8 caracteres">
+                                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('adminSenha')}" th:errors="*{adminSenha}"></div>
+                                <div class="form-text">O admin será obrigado a trocar essa senha no primeiro login.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check2-circle me-1"></i><span th:text="${isEdit} ? 'Salvar alterações' : 'Criar empresa'">Salvar</span>
+                            </button>
+                            <a class="btn btn-outline-secondary" th:href="@{/empresas}">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </section>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

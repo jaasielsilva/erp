@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Editar usuário | ERP' : 'Novo usuário | ERP'">Usuário | ERP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div class="erp-toast-container"></div>
+<div class="erp-toast-source" th:if="${successMessage}" data-toast-type="success" th:attr="data-toast-message=${successMessage}"></div>
+<div class="erp-toast-source" th:if="${warningMessage}" data-toast-type="warning" th:attr="data-toast-message=${warningMessage}"></div>
+<div class="erp-toast-source" th:if="${errorMessage}" data-toast-type="error" th:attr="data-toast-message=${errorMessage}"></div>
+<div class="erp-shell">
+    <aside class="erp-sidebar">
+        <div class="erp-brand">
+            <span class="erp-brand-badge">ERP</span>
+            <div class="erp-brand-title">ERP Corporativo</div>
+        </div>
+        <div class="erp-nav-title">Principal</div>
+        <a class="erp-nav-link" th:href="@{/dashboard}">
+            <i class="bi bi-grid"></i>
+            Dashboard
+        </a>
+        <a class="erp-nav-link" th:href="@{/empresas}" th:if="${canManageCompanies}">
+            <i class="bi bi-buildings"></i>
+            Empresas
+        </a>
+        <a class="erp-nav-link active" th:href="@{/usuarios}">
+            <i class="bi bi-people"></i>
+            Usuários
+        </a>
+        <a class="erp-nav-link" th:href="@{/configuracoes/email}">
+            <i class="bi bi-gear"></i>
+            Configurações
+        </a>
+    </aside>
+
+    <section class="erp-content">
+        <header class="erp-topbar">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-outline-secondary btn-sm erp-mobile-toggle" data-erp-sidebar-toggle>
+                    <i class="bi bi-list"></i>
+                </button>
+                <span class="erp-topbar-title" th:text="${isEdit} ? 'Editar usuário' : 'Novo usuário'">Usuário</span>
+            </div>
+            <span class="erp-muted" th:text="${email}">email</span>
+        </header>
+
+        <main class="erp-main">
+            <section class="erp-card">
+                <div class="erp-card-header d-flex justify-content-between align-items-center">
+                    <h1 class="h5 mb-0" th:text="${isEdit} ? 'Atualizar dados' : 'Cadastro de usuário'">Cadastro</h1>
+                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/usuarios}">
+                        <i class="bi bi-arrow-left me-1"></i>Voltar
+                    </a>
+                </div>
+                <div class="erp-card-body">
+                    <form th:object="${usuarioForm}"
+                          th:action="${isEdit} ? @{|/usuarios/${usuarioId}/editar|} : @{/usuarios}"
+                          method="post"
+                          class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nome</label>
+                            <input class="form-control" th:field="*{nome}" placeholder="Nome completo">
+                            <div class="text-danger small" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">E-mail</label>
+                            <input class="form-control" th:field="*{email}" placeholder="usuario@empresa.com">
+                            <div class="text-danger small" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Perfil</label>
+                            <select class="form-select" th:field="*{role}">
+                                <option value="">Selecione</option>
+                                <option th:each="roleValue : ${roleValues}" th:value="${roleValue}" th:text="${roleValue.name()}">ROLE</option>
+                            </select>
+                            <div class="text-danger small" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:field="*{ativo}">
+                                <label class="form-check-label">Usuário ativo</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4" th:if="${!isEdit}">
+                            <label class="form-label">Senha inicial</label>
+                            <input type="password" class="form-control" th:field="*{senha}" placeholder="mínimo 6 caracteres">
+                            <div class="text-danger small" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-save me-1"></i>
+                                <span th:text="${isEdit} ? 'Salvar alterações' : 'Criar usuário'">Salvar</span>
+                            </button>
+                            <a class="btn btn-light border ms-2" th:href="@{/usuarios}">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </section>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
